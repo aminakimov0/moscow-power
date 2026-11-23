@@ -1,0 +1,80 @@
+(() => {
+  const data = window.SITE_CONTENT;
+  document.querySelectorAll("[data-content]").forEach(el => { el.textContent = data[el.dataset.content] || ""; });
+  const groups = [...new Set(data.services.map(service => service.group))];
+  document.querySelector("#services-dropdown").innerHTML = groups.map((group, index) => `<a href="category.html?group=${data.groupInfo[group].id}"><span class="dock-index">0${index + 1}</span><span>${group}</span><b aria-hidden="true">↗</b></a>`).join("");
+  const form = document.querySelector("#calculator-form"), money = amount => `${Math.round(amount).toLocaleString("ru-RU")} ₽`;
+  const modeButtons = [...document.querySelectorAll(".mode-button")];
+  let salaryMode = "net";
+  form.dataset.salaryMode = salaryMode;
+  modeButtons.forEach(button => button.addEventListener("click", () => {
+    salaryMode = button.dataset.mode;
+    form.dataset.salaryMode = salaryMode;
+    modeButtons.forEach(item => { const active = item === button; item.classList.toggle("is-active", active); item.setAttribute("aria-pressed", String(active)); });
+    document.querySelector("#salary-hint").textContent = salaryMode === "net" ? "Пересчитываем сумму на руки в начисленную зарплату по ставке НДФЛ 13%." : "Сумма указана до НДФЛ и уже является начисленной зарплатой.";
+    update();
+  }));
+  const update = () => {
+    const f = new FormData(form);
+    const amount = Math.max(0, Number(f.get("salary")) || 0);
+    const gross = salaryMode === "net" ? amount / .87 : amount;
+    const workdays = Math.max(1, Number(f.get("workdays")) || 1);
+    const shifts = Math.max(1, Math.min(workdays, Number(f.get("shifts")) || 1));
+    const vacation = Math.max(0, Number(f.get("vacation")) || 0);
+    const sick = Math.max(0, Number(f.get("sick")) || 0);
+    const hiring = Math.max(0, Number(f.get("hiring")) || 0);
+    const tenure = Math.max(1, Number(f.get("tenure")) || 1);
+    const ppe = Math.max(0, Number(f.get("ppe")) || 0);
+    const admin = Math.max(0, Number(f.get("admin")) || 0);
+    const injuryRate = Math.max(0, Number(f.get("injury")) || 0) / 100;
+    const contributionMode = f.get("contribution-mode");
+    const mrotThreshold = 27093 * 1.5;
+    const monthlyBaseLimit = 2979000 / 12;
+    let contributions;
+    if (contributionMode === "sme") {
+      const reducedBase = Math.min(gross, mrotThreshold);
+      contributions = reducedBase * .30 + Math.max(0, gross - mrotThreshold) * .15;
+    } else if (contributionMode === "custom") {
+      contributions = gross * (Math.max(0, Number(f.get("custom-rate")) || 0) / 100);
+    } else {
+      contributions = Math.min(gross, monthlyBaseLimit) * .30 + Math.max(0, gross - monthlyBaseLimit) * .151;
+    }
+    contributions += gross * injuryRate;
+    const hiringPerMonth = hiring / tenure;
+    const ppePerMonth = ppe / 12;
+    const fullMonthly = gross + contributions + hiringPerMonth + ppePerMonth + admin;
+    const availableDays = Math.max(0, workdays - vacation / 12 - sick / 12);
+    const idleDays = Math.max(0, availableDays - shifts);
+    const costPerAvailableShift = availableDays ? fullMonthly / availableDays : 0;
+    const costPerUsefulShift = shifts ? fullMonthly / shifts : 0;
+    const offerPerShift = Math.max(0, Number(f.get("outsourcing")) || 0);
+    const outsourceMonthly = offerPerShift * shifts;
+    const saving = fullMonthly - outsourceMonthly;
+    const set = (id, value) => { const node = document.getElementById(id); if (node) node.textContent = value; };
+    set("shift-count-label", String(shifts));
+    const slider = form.elements.shifts; slider.max = String(workdays); slider.value = String(shifts);
+    document.querySelector("#custom-rate-field").hidden = contributionMode !== "custom";
+    set("cost-per-useful-shift", money(costPerUsefulShift));
+    set("monthly-total", money(fullMonthly));
+    set("gross-salary", money(gross));
+    set("idle-days", idleDays.toLocaleString("ru-RU", {minimumFractionDigits:1,maximumFractionDigits:1}));
+    set("cost-per-available-shift", money(costPerAvailableShift));
+    set("offer-per-shift", money(offerPerShift));
+    set("outsourcing-month", `${money(outsourceMonthly)}/мес.`);
+    set("saving-month", money(Math.abs(saving)));
+    set("saving-year", money(Math.abs(saving * 12)));
+    document.querySelector("#saving-month").classList.toggle("is-loss", saving < 0);
+    document.querySelector("#saving-year").classList.toggle("is-loss", saving < 0);
+    set("saving-message", saving >= 0 ? "При такой загрузке аутсорсинг особенно выгоден: вы оплачиваете людей только тогда, когда есть работа." : "В этом сценарии расчётная цена аутсорсинга выше расходов на штат. Попробуйте изменить загрузку и параметры.");
+    set("breakdown-salary", money(gross));
+    set("breakdown-contributions", money(contributions));
+    set("breakdown-hiring", money(hiringPerMonth));
+    set("breakdown-other", money(ppePerMonth + admin));
+  };
+  form.addEventListener("input", update);
+  form.addEventListener("change", update);
+  const menu = document.querySelector(".menu-toggle"), nav = document.querySelector(".nav");
+  menu.addEventListener("click", () => { const open = menu.getAttribute("aria-expanded") !== "true"; menu.setAttribute("aria-expanded", open); nav.classList.toggle("nav-open", open); });
+  nav.querySelectorAll("a").forEach(link => link.addEventListener("click", () => { nav.classList.remove("nav-open"); menu.setAttribute("aria-expanded", "false"); }));
+  update();
+})();

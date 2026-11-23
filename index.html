@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#112b40">
+  <meta name="description" content="Рабочий персонал, грузчики и услуги для бизнеса в Москве.">
+  <title>Московская сила — рабочий персонал в Москве</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="layout.css"><script src="content.js" defer></script><script src="app.js" defer></script><script src="questions.js" defer></script>
+</head>
+<body>
+  <header class="topbar" id="topbar">
+    <a class="brand" href="#top" aria-label="Московская сила — на главную"><img class="brand-mark" src="assets/mw-crest.svg" alt=""><span data-content="brand"></span></a>
+    <nav class="nav" aria-label="Основная навигация">
+      <a class="services-trigger" href="#services"><span class="services-glyph" aria-hidden="true"><i></i><i></i><i></i></span>Услуги</a>
+      <a href="business.html">Для бизнеса</a><a href="#about">О нас</a><a href="calculator.html">Калькулятор</a><a href="contacts.html">Контакты</a>
+    </nav>
+    <div class="top-actions"><span class="location-pill"><span class="location-pin">●</span>Москва</span><a class="button button-head" href="contacts.html">Оставить заявку</a></div>
+    <button class="menu-toggle" aria-label="Открыть меню" aria-expanded="false"><span></span><span></span><span></span></button>
+  </header>
+  <div class="services-dock"><div class="services-dropdown" id="services-dropdown" aria-label="Направления услуг"></div></div>
+
+  <main id="top">
+    <section class="hero-banner">
+      <img class="hero-background" src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&amp;fit=crop&amp;w=2000&amp;q=88" alt="" fetchpriority="high">
+      <div class="hero-overlay"></div><div class="hero-seal" aria-hidden="true"><img src="assets/mw-pattern.svg" alt=""></div>
+      <div class="hero-inner wrap">
+        <div class="hero-copy"><p class="eyebrow hero-eyebrow"><span class="eyebrow-rule"></span>РАБОЧИЙ ПЕРСОНАЛ В МОСКВЕ</p><h1>Люди и техника<br>для важных задач</h1><p class="hero-lead">Грузчики, разнорабочие и профильные бригады для объектов, складов, производства и переездов.</p><div class="hero-actions"><a class="button button-cyan" href="#services">Смотреть направления <span>↓</span></a></div><p class="hero-promise">Сначала задача и условия — затем согласование стоимости</p></div>
+        <form class="express-card" id="express-form"><div class="express-heading"><span>ЗАЯВКА</span><div><strong>Быстрый запрос</strong><small>Ответим в течение 2 часов</small></div></div><label>Какая помощь нужна?<select name="service" id="quick-service"></select></label><label>Номер телефона<input name="phone" type="tel" placeholder="+7 (___) ___-__-__" required></label><label>Комментарий<textarea name="comment" rows="2" placeholder="Объём, адрес или удобное время"></textarea></label><button class="button button-cyan" type="submit">Запросить расчёт <span>↗</span></button><small class="form-hint">Демонстрационная форма, отправка заявок пока не подключена.</small><div class="form-message" role="status"></div></form>
+      </div>
+      <div class="hero-location"><span class="location-pin">●</span>Москва <i></i> Выезд по городу</div>
+    </section>
+
+    <section class="service-floor" id="services"><div class="wrap"><div class="floor-heading"><div><p class="eyebrow"><span class="eyebrow-rule"></span>НАПРАВЛЕНИЯ РАБОТ</p><h2>Услуги</h2></div></div><div class="service-categories" id="service-grid"></div></div></section>
+
+    <section class="price-floor"><div class="wrap price-layout"><div class="price-copy"><p class="eyebrow"><span class="eyebrow-rule"></span>СТОИМОСТЬ РАБОТ</p><h2>Сначала задача.<br>Затем точный расчёт.</h2><p>Цена зависит от состава команды, продолжительности работ и условий на объекте. Уточняем её до начала.</p><a href="contacts.html" class="price-link">Запросить расчёт <span>↗</span></a></div><a class="calculator-teaser" href="calculator.html"><span class="teaser-icon">◷</span><div><strong>Предварительный расчёт</strong><span>Число работников, часы и условия — в калькуляторе.</span></div><b>Открыть калькулятор ↗</b></a></div></section>
+
+    <section class="quote-floor"><div class="wrap quote-layout"><div class="quote-icon"><span>₽</span></div><div><p class="eyebrow eyebrow-light">РАСЧЁТ ПОД ВАШУ ЗАДАЧУ</p><h2>Нужна бригада на смену<br>или на постоянную работу?</h2><p>Сравните расходы на штат и привлечённый персонал. Введите свои цифры — калькулятор покажет разницу.</p></div><a class="button button-white" href="calculator.html">Открыть калькулятор <span>↗</span></a></div></section>
+
+    <section class="about-floor" id="about"><div class="wrap about-layout"><div class="about-statement"><p class="eyebrow eyebrow-light">О КОМПАНИИ · МОСКВА</p><h2>Московская<br>сила.<br><em>Работаем по делу.</em></h2><a class="text-link" href="contacts.html">Обсудить задачу <span>↗</span></a><div class="about-geometry"></div></div><div class="about-content"><p class="about-lead">«Московская сила» — команда для задач, где нужны рабочие руки, слаженная бригада или техника. Помогаем организовать работу на объекте в Москве — от уточнения задачи до согласования выхода.</p><div class="about-points" id="about-points"></div><p class="about-values"><b>Наш принцип</b> — ясные договорённости, связь по ходу заказа и уважение к срокам. Без обещаний наугад: сначала разбираемся в задаче, затем предлагаем подходящий формат.</p></div></div></section>
+
+    <div data-questions></div>
+  </main>
+
+  <footer class="footer"><div class="wrap footer-content"><a class="brand" href="#top"><img class="brand-mark" src="assets/mw-crest.svg" alt=""><span data-content="brand"></span></a><p data-content="footerLine"></p><div class="footer-links"><a href="#services">Услуги</a><a href="business.html">Для бизнеса</a><a href="calculator.html">Калькулятор</a><a href="contacts.html">Контакты</a><a href="#top">Наверх ↑</a></div></div></footer>
+</body>
+</html>

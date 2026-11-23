@@ -1,0 +1,11 @@
+/* Дополнительные стили блоков главной страницы */
+.price-floor{padding:62px 0;background:linear-gradient(125deg,#edf5f8 0 56%,#e3ebf5 56% 100%);border-block:1px solid #d4e0e7}
+.price-layout{display:grid;grid-template-columns:.8fr 1.2fr;gap:28px;align-items:stretch}
+.price-copy{padding:25px;background:#fff;border-left:7px solid #078fd4;box-shadow:0 9px 25px #153c5212}
+.price-copy h2{margin:0;color:#142f44;font-size:31px;line-height:1.15}
+.price-copy>p:not(.eyebrow){margin:13px 0;color:#5b6e7a;font-size:14px}
+.price-link{color:#087db8;font-size:13px;font-weight:800}.price-link span{font-size:17px;margin-left:6px}
+.quote-icon{transform:none!important;clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);border:0;background:#ffffff12}.quote-icon span{width:100%;height:100%;display:grid;place-items:center;color:#4bc1f2}
+.hero-banner h1{margin:0;color:#fff;font-size:clamp(46px,5.5vw,70px);line-height:1.05;letter-spacing:-2.2px;font-weight:800}
+@media(max-width:1000px){.price-layout{grid-template-columns:.9fr 1.1fr;gap:16px}}
+@media(max-width:700px){.hero-banner h1{font-size:43px;letter-spacing:-1.3px}.price-floor{padding:42px 0}.price-layout{grid-template-columns:1fr;gap:11px}.price-copy{padding:19px}.price-copy h2{font-size:25px}.quote-icon span{font-size:19px}}
